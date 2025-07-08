@@ -1,1 +1,3 @@
-# migrating-ec2-instances-to-k8s
+# Migrating EC2 instances to Kubernetes
+
+## What is the project ?
