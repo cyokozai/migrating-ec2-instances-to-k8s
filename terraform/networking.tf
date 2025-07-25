@@ -144,7 +144,7 @@ resource "aws_security_group" "ec2_sg" {
     from_port       = 2049 # for EFS
     to_port         = 2049
     protocol        = "tcp"
-    security_groups = [aws_security_group.ec2_sg.id] # Self reference for EFS
+    cidr_blocks     = [aws_vpc.main.cidr_block] # Allow access from VPC CIDR block
   }
 
   egress {
