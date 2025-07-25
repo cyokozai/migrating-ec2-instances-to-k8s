@@ -16,6 +16,13 @@ usermod -a -G docker ec2-user
 
 # Install Docker Compose
 curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m).sha256" -o /usr/local/bin/docker-compose.sha256
+cd /usr/local/bin
+sha256sum -c docker-compose.sha256
+if [ $? -ne 0 ]; then
+    echo "Checksum verification failed for Docker Compose. Aborting."
+    exit 1
+fi
 chmod +x /usr/local/bin/docker-compose
 
 # Mount EFS
