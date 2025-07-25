@@ -82,7 +82,7 @@ resource "aws_launch_template" "main" {
     security_groups             = [aws_security_group.ec2_sg.id]
   }
 
-  user_data = base64encode(templatefile("${path.module}/user_data.sh.tpl", {
+  user_data = base64encode(templatefile("${path.root}/../user_data.sh.tpl", {
     efs_id       = aws_efs_file_system.wordpress.id
     aws_region   = var.aws_region
     db_endpoint  = aws_db_instance.wordpress.endpoint
