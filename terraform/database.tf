@@ -1,4 +1,4 @@
-# EFS
+# RDS Database Configuration
 resource "aws_db_subnet_group" "main" {
   name       = "${var.project_name}-rds-subnet-group"
   subnet_ids = [for s in aws_subnet.private : s.id]
