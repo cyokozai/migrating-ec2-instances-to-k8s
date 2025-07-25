@@ -86,7 +86,7 @@ server {
     index index.php;
 
     # Set client body size to handle large file uploads
-    client_max_body_size_in_mb 100M;
+    client_max_body_size 100M;
 
     # Add headers to serve security related headers
     add_header X-Content-Type-Options "nosniff" always;
