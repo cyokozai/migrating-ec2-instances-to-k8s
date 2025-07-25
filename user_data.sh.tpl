@@ -16,6 +16,13 @@ usermod -a -G docker ec2-user
 
 # Install Docker Compose
 curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m).sha256" -o /usr/local/bin/docker-compose.sha256
+cd /usr/local/bin
+sha256sum -c docker-compose.sha256
+if [ $? -ne 0 ]; then
+    echo "Checksum verification failed for Docker Compose. Aborting."
+    exit 1
+fi
 chmod +x /usr/local/bin/docker-compose
 
 # Mount EFS
@@ -40,7 +47,7 @@ version: '3.8'
 
 services:
   php:
-    image: php:8.3-fpm-alpine
+    image: wordpress:php8.3-fpm
     restart: always
     volumes:
       - wp-data:/var/www/html
@@ -74,7 +81,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ${WP_DATA_DIR}
+      device: /mnt/efs_wp/html
 EOF
 
 # Create nginx.conf
@@ -86,7 +93,7 @@ server {
     index index.php;
 
     # Set client body size to handle large file uploads
-    client_max_body_size_in_mb 100M;
+    client_max_body_size 100M;
 
     # Add headers to serve security related headers
     add_header X-Content-Type-Options "nosniff" always;
