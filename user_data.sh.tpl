@@ -47,7 +47,7 @@ version: '3.8'
 
 services:
   php:
-    image: php:8.3-fpm-alpine
+    image: wordpress:php8.3-fpm
     restart: always
     volumes:
       - wp-data:/var/www/html
