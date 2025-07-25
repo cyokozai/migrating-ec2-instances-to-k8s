@@ -1,0 +1,31 @@
+name: TFLint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  tflint:
+    name: Run TFLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4
+        with:
+          # .tflint.hclで指定したバージョンと合わせるのが望ましい
+          tflint_version: latest 
+
+      - name: Initialize TFLint
+        run: tflint --init
+        env:
+          # GitHub ActionsのAPIレート制限を回避するためにトークンを設定します
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run TFLint
+        # --format=compact を使うと、ログが見やすくなります
+        run: tflint --format=compact
