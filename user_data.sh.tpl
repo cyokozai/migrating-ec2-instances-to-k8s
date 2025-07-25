@@ -81,7 +81,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ${WP_DATA_DIR}
+      device: /mnt/efs_wp/html
 EOF
 
 # Create nginx.conf
