@@ -46,7 +46,5 @@ resource "aws_instance" "web_server" {
               systemctl enable nginx
               EOF
 
-  tags = {
-    Name = "simple-nginx-server"
-  }
+  tags = var.common_tags
 }
