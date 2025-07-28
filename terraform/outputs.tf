@@ -1,14 +1,9 @@
-output "wordpress_url" {
-  description = "The URL to access the WordPress site."
-  value       = "http://${aws_lb.main.dns_name}"
+output "instance_public_ip" {
+  description = "Public IP address of the EC2 instance."
+  value       = aws_instance.web_server.public_ip
 }
 
-output "alb_dns_name" {
-  description = "The DNS name of the Application Load Balancer."
-  value       = aws_lb.main.dns_name
-}
-
-output "rds_endpoint" {
-  description = "The endpoint of the RDS database instance."
-  value       = aws_db_instance.wordpress.endpoint
+output "access_url" {
+  description = "URL to access the Nginx server."
+  value       = "http://${aws_instance.web_server.public_ip}"
 }
