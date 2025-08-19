@@ -1,6 +1,6 @@
 output "ubuntu_ami_details" {
   description = "Details of the Ubuntu 24.04 LTS AMI."
-  value = data.aws_ami.ubuntu_server_2404_lts
+  value = data.aws_ami.ubuntu_server_2404_lts.description
 }
 
 output "instance_public_ip" {
