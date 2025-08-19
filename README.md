@@ -9,7 +9,7 @@
 - Run the following command.  
 
   ```shell
-  aws ec2 create-key-pair \                                                                                                                                                                   1 х │ 23s │ 16:54:28 
+  aws ec2 create-key-pair \
     --key-name ec2-key-pair \
     --key-type rsa \
     --key-format pem \
