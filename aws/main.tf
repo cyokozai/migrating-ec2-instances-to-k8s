@@ -9,12 +9,12 @@ terraform {
   }
 
   backend "s3" {
-    # bucket         = "yinoue-terraform-statefile"
-    # key            = "terraform.tfstate"
+    bucket         = "yinoue-terraform-statefile"
+    key            = "terraform.tfstate"
     region         = "ap-northeast-1"
     encrypt        = true
   }
-  
+
   # backend "local" {}
 }
 

@@ -31,6 +31,9 @@
 
 ## Run Terraform commands
 
+- Comment out the backend.tf file and `terraform.backend.s3` in main.tf file.  
+- Run `terraform init`.  
+- Run `terraform apply -var-file="terraform.tfvars"`.  
 - Create S3 bucket for Terraform state
 
   ```shell
@@ -40,17 +43,24 @@
      --create-bucket-configuration LocationConstraint=ap-northeast-1
   ```
 
-- First init: Run `terraform init` with `--backend-config` option.  
+- Recomment out the backend.tf file and `terraform.backend.s3` in main.tf file and comment out `terraform.backend.local` in main.tf file.  
+- Second times init: Run `terraform init` with `-reconfigure` options.  
 
   ```shell
-  terraform init -backend-config=".tfbackend"
+  terraform init -reconfigure
   ```
 
-- n times init: Run `terraform init` with `-backend-config` and `-reconfigure` options.  
+  - Result
+  
+    ```shell
+    terraform init -reconfigure
+    Initializing the backend...
+    Do you want to copy existing state to the new backend?
 
-  ```shell
-  terraform init -reconfigure -backend-config=".tfbackend"
-  ```
+      Enter a value: yes
+
+    Terraform has been successfully initialized!
+    ```
 
 - Provisioning: Run `terraform plan/apply` with `-var-file` option.  
   - Plan  
