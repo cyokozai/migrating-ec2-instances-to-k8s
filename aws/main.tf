@@ -7,20 +7,33 @@ terraform {
       version = "~> 4.46.0"
     }
   }
+
+  backend "s3" {
+    bucket         = "yinoue-terraform-statefile"
+    key            = "terraform.tfstate"
+    region         = "ap-northeast-1"
+    encrypt        = true
+  }
 }
+
 
 provider "aws" {
   region = var.aws_region
 }
 
 
-data "aws_ami" "amazon_linux_2" {
+data "aws_ami" "ubuntu_server_2404_lts" {
   most_recent = true
   owners      = ["amazon"]
 
   filter {
     name   = "name"
-    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+    values = ["ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
   }
 
   filter {
@@ -31,7 +44,7 @@ data "aws_ami" "amazon_linux_2" {
 
 
 resource "aws_instance" "web_server" {
-  ami                    = data.aws_ami.amazon_linux_2.id
+  ami                    = data.aws_ami.ubuntu_server_2404_lts.id
   instance_type          = "t2.micro"
   subnet_id              = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
@@ -39,8 +52,8 @@ resource "aws_instance" "web_server" {
 
   user_data = <<-EOF
               #!/bin/bash
-              yum update -y
-              amazon-linux-extras install nginx1 -y
+              apt -y update
+              apt -y install nginx
               systemctl start nginx
               systemctl enable nginx
               EOF
